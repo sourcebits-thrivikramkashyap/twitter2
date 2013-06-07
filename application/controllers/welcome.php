@@ -36,6 +36,21 @@ class Welcome extends CI_Controller {
 		$this->load->model('twitter_model');
 		$this->twitter_model->post_status("post1 to twitter06062013");		
 	}
+	
+	public function get_followers_list()
+	{
+		$this->load->model('twitter_model');
+		$followers_list = $this->twitter_model->get_followers_list();
+		echo json_encode($followers_list);
+		//return json_encode($followers_list);
+	}
+	
+	public function get_friends_ids()
+	{
+		$this->load->model('twitter_model');
+		$friends_ids = $this->twitter_model->get_friends_ids();
+		echo json_encode($friends_ids);
+	}
 }
 
 /* End of file welcome.php */

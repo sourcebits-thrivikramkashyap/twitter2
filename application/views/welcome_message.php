@@ -63,6 +63,21 @@
 		-webkit-box-shadow: 0 0 8px #D0D0D0;
 	}
 	</style>
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+</script>
+<script type="text/javascript">
+function fetch(){alert("here");
+var request = $.ajax({
+	url:"/welcome/get_friends_ids", 
+	success: function(data){
+	alert(data);
+	$("#display_information").text(data);
+}
+});
+}	
+</script>
+
 </head>
 <body>
 
@@ -83,6 +98,14 @@
 
 	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>
 </div>
+
+<div>
+<input type="button" value="get friends_list" class="friends_ids" onclick='fetch();'/><br />
+<input type="button" value="get followers_list" class="followers_list"/>
+<div id="display_information">
+</div>
+</div>
+
 
 </body>
 </html>

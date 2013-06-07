@@ -23,6 +23,7 @@ class Twitter_model extends CI_Model {
 		 $this->load->library('session');
 		 $this->token = $this->session->userdata('token');
 		 $this->token_secret = $this->session->userdata('token_secret');	 
+		 echo "in twitter_model constructor";
 	}
 	
 	/*
@@ -32,8 +33,7 @@ class Twitter_model extends CI_Model {
 	 * param	: callback_url  	  			  
 	 */
 	public function connect($callback_url)
-	{		
-		//$twitter = new EpiTwitter('NMStUVVKyL8kvnJ4SNCEIg', 'sIcOGLQ2xVA3YAAVXS637km6ESYJfBjg7Scfhl8s');
+	{				
 		$twitter = $this->create_twitter_object($this->consumer_key, $this->consumer_secret);
 		$twitter_url = $twitter->getAuthenticateUrl(NULL, array('oauth_callback' => $callback_url));
 		
@@ -46,19 +46,17 @@ class Twitter_model extends CI_Model {
 		{
 			$twitter->setToken($_GET['oauth_token']);
 			$token = $twitter->getAccessToken();
-			$twitter->setToken($token->oauth_token, $token->oauth_token_secret);
-			//$twuser = $twitter->get_accountVerify_Credentials();die("here");
+			$twitter->setToken($token->oauth_token, $token->oauth_token_secret);			
 			
 			// set session variables
 			$this->load->library('session');
 			$this->session->set_userdata('username', 'testtwlogin');
 			$this->session->set_userdata('token', $token->oauth_token);
 			$this->session->set_userdata('token_secret', $token->oauth_token_secret);			
-			
-//			$_SESSION['oauth_tokens']['token'] = $token->oauth_token;echo "token:".$_SESSION['oauth_tokens']['token'];
-//			$_SESSION['oauth_tokens']['token_secret'] = $token->oauth_token_secret;
+
 			$this->token = $token->oauth_token;
 			$this->token_secret = $token->oauth_token_secret;
+			
 			// oauth_token and oauth_token_secret can be stored in db.
 			$this->insert_into_db($this->token, $this->token_secret);
 			
@@ -68,21 +66,11 @@ class Twitter_model extends CI_Model {
 	}
 	
 	public function insert_into_db($token, $token_secret)
-	{
-//		$db = Database::instance();
-//		echo $token.'--'.$token_secret;
-//		$sql = "insert into twitter_users(token, token_secret) values('".$token."', '".$token_secret."')";
-//		$result	=	$db->query(Database::INSERT, $sql, true);
-//	//	$result	=	DB::query(Database::INSERT, $sql);
-//		//$result->execute();
-//		var_dump($result);die;	
-
-//		$this->load->library('database');
-		
+	{		
 		$sql = "INSERT into twitter_users(token, token_secret)
 				Values(".$this->db->escape($token).",".$this->db->escape($token_secret).")";
 		$this->db->query($sql);
-		echo $this->db->affected_rows();
+		//echo $this->db->affected_rows();
 	}
 	
 	/*
@@ -92,12 +80,6 @@ class Twitter_model extends CI_Model {
 	 */
 	public function retrieve_tokens_from_db($user_id)
 	{
-//		$db = Database::instance('default');
-//		$sql = "select * from twitter_users where user_id = $user_id";
-//		$query = DB::query(Database::SELECT, $sql);
-//		$data = $query->execute()->as_array();print_r($data);
-//		return $data;	
-
 		$sql = "SELECT * from twitter_users
 				WHERE id=".$user_id;
 		$query = $this->db->query($sql);
@@ -128,10 +110,7 @@ class Twitter_model extends CI_Model {
 	public function create_twitter_object($consumer_key, $consumer_secret)
 	{
 		return new EpiTwitter($consumer_key, $consumer_secret);
-	}
-	
-	
-	
+	}	
 	
 	/*
 	 * Function : get_account_settings
@@ -166,17 +145,14 @@ class Twitter_model extends CI_Model {
 	 */
 	public function post_status($message)
 	{				
-		$twitter = $this->create_twitter_object($this->consumer_key, $this->consumer_secret);		
-		//$twitter->setToken('1388944016-RGEWLWlL9hld28k60RYxQ6EgusjF1ckd6ye7J7n', 'c1ZqFLMOwIOGjixjSAZtIeN093DZWIPFrW0Iv7fkeko');
-		//$twitter->setToken($_SESSION['oauth_tokens']['token'], $_SESSION['oauth_tokens']['token_secret']);
-		//$twitter->setToken($this->session->userdata('token'), $this->session->userdata('token_secret'));
+		$twitter = $this->create_twitter_object($this->consumer_key, $this->consumer_secret);			
 		try
 		{
-//			$twitter->setToken($this->session->userdata('token'), $this->session->userdata('token_secret'));
-//			echo "token:".$this->session->userdata('token')."token_secret:".$this->session->userdata('token_secret');
 			$twitter->setToken($this->token, $this->token_secret);echo "token:".$this->token."token_secret:".$this->token_secret."\n";
-			$twitter->post('/statuses/update.json', array('status' => $message.date('l jS \of F Y h:i:s A')));
-		}catch(EpiTwitterException $ex)
+			$status = $twitter->post('/statuses/update.json', array('status' => $message.date('l jS \of F Y h:i:s A')));
+			return $status;
+		}
+		catch(EpiTwitterException $ex)
 		{
 			echo "<pre>";print_r($ex);
 		}
