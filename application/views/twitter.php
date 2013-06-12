@@ -67,36 +67,25 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
 </script>
 <script type="text/javascript">
-function connect_to_tw(){alert("here");
-var request = $.ajax({
-	url:"/twitter/connect", 
-	success: function(data){
-	alert(data);
-	$("#display_information").text(data);
-}
-});
-}	
-function post_status(){alert("here"+ $("#tweet_message").val()+"additional text");
+function post_status(){
 var request = $.ajax({
 	url:"/twitter/post_status", 
 	type:'POST',
 	data:({        
         'message':$("#tweet_message").val()
     }),
-	success: function(data){
-	alert(data);
+	success: function(data){	
 	$("#display_information").text(data);
 }
 });
 }	
-function fetch_friends_list(){alert("here");
+function fetch_friends_list(){
 var request = $.ajax({
 	url:"/twitter/get_friends_list", 
-	success: function(data){
-	alert(data);
+	success: function(data){	
 
-	var obj = jQuery.parseJSON(data);alert(obj.users[0].id);	
-	alert(typeof obj.users[0]);
+	var obj = jQuery.parseJSON(data);//alert(obj.users[0].id);	
+	//alert(typeof obj.users[0]);
 
 	var html = "<table border=1>";
 	html = html+"<th>id</th><th>screen_name</th><th>followers_count</th><th>friends_count</th>";
@@ -114,13 +103,13 @@ var request = $.ajax({
 }
 });
 }	
-function fetch_followers_list(){alert("here in fetch_followers_list");
+function fetch_followers_list(){
 var request = $.ajax({
 	url:"/twitter/get_followers_list", 
 	success: function(data){
 	alert(data);	
-	var obj = jQuery.parseJSON(data);alert(obj.users[0].id);	
-alert(typeof obj.users[0]);
+	var obj = jQuery.parseJSON(data);
+
 
 var html = "<table border=1>";
 html = html+"<th>id</th><th>screen_name</th><th>followers_count</th><th>friends_count</th>";
