@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Welcome to CodeIgniter</title>
+	<title>Twitter Client</title>
 
 	<style type="text/css">
 
@@ -94,21 +94,87 @@ var request = $.ajax({
 	url:"/twitter/get_friends_list", 
 	success: function(data){
 	alert(data);
-	$("#display_information").text(data);
+
+	var obj = jQuery.parseJSON(data);alert(obj.users[0].id);	
+	alert(typeof obj.users[0]);
+
+	var html = "<table border=1>";
+	html = html+"<th>id</th><th>screen_name</th><th>followers_count</th><th>friends_count</th>";
+	html = html+"<th>statuses_count</th>";
+				
+		for(var i=0;i<obj.users.length;i++)
+		{
+			var follower = obj.users[i];
+			var html= html+"<tr><td>"+follower.id+"</td><td>"+follower.screen_name+"</td>";
+			html = html + "<td>"+follower.followers_count+"</td><td>"+follower.friends_count+"</td>";
+			html = html + "<td>"+follower.statuses_count+"</td></tr>";		
+		}
+		var html = html+"</table>";
+		$("#display_information").html(html);
 }
 });
 }	
-function fetch_followers_list(){alert("here");
+function fetch_followers_list(){alert("here in fetch_followers_list");
 var request = $.ajax({
 	url:"/twitter/get_followers_list", 
 	success: function(data){
-	alert(data);
-	$("#display_information").text(data);
+	alert(data);	
+	var obj = jQuery.parseJSON(data);alert(obj.users[0].id);	
+alert(typeof obj.users[0]);
+
+var html = "<table border=1>";
+html = html+"<th>id</th><th>screen_name</th><th>followers_count</th><th>friends_count</th>";
+html = html+"<th>statuses_count</th>";
+			
+	for(var i=0;i<obj.users.length;i++)
+	{
+		var follower = obj.users[i];
+		var html= html+"<tr><td>"+follower.id+"</td><td>"+follower.screen_name+"</td>";
+		html = html + "<td>"+follower.followers_count+"</td><td>"+follower.friends_count+"</td>";
+		html = html + "<td>"+follower.statuses_count+"</td></tr>";		
+	}
+	var html = html+"</table>";
+	$("#display_information").html(html);
+	
+	
 }
 });
 }	
 </script>
 
+<style>
+.button {
+   border-top: 1px solid #96d1f8;
+   background: #65a9d7;
+   background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#65a9d7));
+   background: -webkit-linear-gradient(top, #3e779d, #65a9d7);
+   background: -moz-linear-gradient(top, #3e779d, #65a9d7);
+   background: -ms-linear-gradient(top, #3e779d, #65a9d7);
+   background: -o-linear-gradient(top, #3e779d, #65a9d7);
+   padding: 5px 10px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   font-size: 14px;
+   font-family: Georgia, serif;
+   text-decoration: none;
+   vertical-align: middle;
+   }
+.button:hover {
+   border-top-color: #28597a;
+   background: #28597a;
+   color: #ccc;
+   }
+.button:active {
+   border-top-color: #1b435e;
+   background: #1b435e;
+   }
+</style>
 </head>
 <body>
 
@@ -129,10 +195,15 @@ var request = $.ajax({
 	<textarea rows="2" cols="70" id="tweet_message" class="tweet_message"></textarea>
 	</label>
 	
-	<input type="button" value="post status" class="post_status" onclick='post_status();'/><br />
-	<input type="button" value="get friends list" class="friends_list" onclick='fetch_friends_list();'/><br />
-	<input type="button" value="get followers list" class="followers_list" onclick='fetch_followers_list();'/><br />
+	<div id ="menu" >
+	<ul style="list-style-type: none;">
+	<li><input type="button" value="post status" class="post_status button" onclick='post_status();'/><br /></li>
+	<li><input type="button" value="get friends list" class="friends_list button" onclick='fetch_friends_list();'/><br /></li>
+	<li><input type="button" value="get followers list" class="followers_list button" onclick='fetch_followers_list();'/><br /></li>
+	</ul>
+	</div>
 	<?php }?>
+	
 	</div>
 
 	

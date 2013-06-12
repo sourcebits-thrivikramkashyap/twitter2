@@ -22,8 +22,8 @@ class Twitter_model extends CI_Model {
 		 
 		 $this->load->library('session');
 		 $this->token = $this->session->userdata('token');
-		 $this->token_secret = $this->session->userdata('token_secret');	 
-		 echo "in twitter_model constructor";
+		 $this->token_secret = $this->session->userdata('token_secret'); 
+		 
 	}
 	
 	/*

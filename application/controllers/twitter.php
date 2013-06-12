@@ -33,6 +33,22 @@ class Twitter extends CI_Controller{
 	{
 		$this->load->model('twitter_model');
 		$followers_list = $this->twitter_model->get_followers_list();
+		
+//		echo "<table border=1 cols=1>
+//		<tr>
+//		<th>Followers List</th>
+//		</tr>
+//		";
+//		
+//		
+//		
+//		
+//		foreach($followers_list->users as $follower)
+//		{
+//			echo "<tr>
+//			<td>".$follower->screen_name."</td>
+//			</tr>";
+//		}
 		echo json_encode($followers_list);
 		//return json_encode($followers_list);
 	}

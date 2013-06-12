@@ -28,7 +28,11 @@ class Welcome extends CI_Controller {
 //		$this->load->library('Twitter');
 //		$this->twitter->connect('http://'.$_SERVER['HTTP_HOST']);
 		
-		$this->load->view('welcome_message');
+		$array = array(
+				"name" => 'testtwlogin',
+				"followers_count" => 2
+		);
+		$this->load->view('welcome_message', $array);
 	}
 	
 	public function post_status()
@@ -40,7 +44,7 @@ class Welcome extends CI_Controller {
 	public function get_followers_list()
 	{
 		$this->load->model('twitter_model');
-		$followers_list = $this->twitter_model->get_followers_list();
+		$followers_list = $this->twitter_model->get_followers_list();echo "<pre>";print_r($followers_list);die;
 		echo json_encode($followers_list);
 		//return json_encode($followers_list);
 	}
