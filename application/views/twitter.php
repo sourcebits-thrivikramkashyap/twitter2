@@ -63,6 +63,39 @@
 		-webkit-box-shadow: 0 0 8px #D0D0D0;
 	}
 	</style>
+	<style>
+.button {
+   border-top: 1px solid #96d1f8;
+   background: #65a9d7;
+   background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#65a9d7));
+   background: -webkit-linear-gradient(top, #3e779d, #65a9d7);
+   background: -moz-linear-gradient(top, #3e779d, #65a9d7);
+   background: -ms-linear-gradient(top, #3e779d, #65a9d7);
+   background: -o-linear-gradient(top, #3e779d, #65a9d7);
+   padding: 5px 10px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   font-size: 14px;
+   font-family: Georgia, serif;
+   text-decoration: none;
+   vertical-align: middle;
+   }
+.button:hover {
+   border-top-color: #28597a;
+   background: #28597a;
+   color: #ccc;
+   }
+.button:active {
+   border-top-color: #1b435e;
+   background: #1b435e;
+   }
+</style>
 	
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
 </script>
@@ -129,41 +162,24 @@ html = html+"<th>statuses_count</th>";
 }
 });
 }	
+
+function fetch_friends_ids(){
+	var request = $.ajax({
+		url:"/twitter/get_friends_ids", 
+		success: function(data){
+		alert(data);	
+		var obj = jQuery.parseJSON(data);
+
+
+	
+		$("#display_information").text(data);
+		
+	}
+	});
+	}	
 </script>
 
-<style>
-.button {
-   border-top: 1px solid #96d1f8;
-   background: #65a9d7;
-   background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#65a9d7));
-   background: -webkit-linear-gradient(top, #3e779d, #65a9d7);
-   background: -moz-linear-gradient(top, #3e779d, #65a9d7);
-   background: -ms-linear-gradient(top, #3e779d, #65a9d7);
-   background: -o-linear-gradient(top, #3e779d, #65a9d7);
-   padding: 5px 10px;
-   -webkit-border-radius: 8px;
-   -moz-border-radius: 8px;
-   border-radius: 8px;
-   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
-   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
-   box-shadow: rgba(0,0,0,1) 0 1px 0;
-   text-shadow: rgba(0,0,0,.4) 0 1px 0;
-   color: white;
-   font-size: 14px;
-   font-family: Georgia, serif;
-   text-decoration: none;
-   vertical-align: middle;
-   }
-.button:hover {
-   border-top-color: #28597a;
-   background: #28597a;
-   color: #ccc;
-   }
-.button:active {
-   border-top-color: #1b435e;
-   background: #1b435e;
-   }
-</style>
+
 </head>
 <body>
 
@@ -182,13 +198,15 @@ html = html+"<th>statuses_count</th>";
 	<?php if($this->session->userdata('username') != null){?>
 	<label>Enter tweet <br />
 	<textarea rows="2" cols="70" id="tweet_message" class="tweet_message"></textarea>
+	<input type="button" value="post status" class="post_status button" onclick='post_status();'/><br />
 	</label>
 	
+	
 	<div id ="menu" >
-	<ul style="list-style-type: none;">
-	<li><input type="button" value="post status" class="post_status button" onclick='post_status();'/><br /></li>
+	<ul style="list-style-type: none;">	
 	<li><input type="button" value="get friends list" class="friends_list button" onclick='fetch_friends_list();'/><br /></li>
 	<li><input type="button" value="get followers list" class="followers_list button" onclick='fetch_followers_list();'/><br /></li>
+	<li><input type="button" value="get friends ids" class="friends_ids button" onclick='fetch_friends_ids();'/><br /></li>
 	</ul>
 	</div>
 	<?php }?>

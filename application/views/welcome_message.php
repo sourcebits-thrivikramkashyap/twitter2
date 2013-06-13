@@ -99,12 +99,22 @@ var request = $.ajax({
 	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>
 </div>
 
-<div>
-<input type="button" value="get friends_list" class="friends_ids" onclick='fetch();'/><br />
-<input type="button" value="get followers_list" class="followers_list"/>
-<div id="display_information">
+<div id="leftmenu_main">               
+                
+                        
+                <ul>
+                    <li><a href="#">SEO</a></li>
+                    <li><a href="#">PHP</a></li>
+                    <li><a href="#">Ajax</a></li>
+                    <li><a href="#">jQuery</a></li>
+                    <li><a href="#">Web design</a></li>
+                    <li><a href="#">Web Programming</a></li>
+                    <li><a href="#">Content Creation</a></li>
+                    <li><a href="#">Internet Marketing</a></li>
+                    <li><a href="#">XHTML Templates</a></li>                    
+                </ul>
 </div>
-</div>
+
 
 
 </body>

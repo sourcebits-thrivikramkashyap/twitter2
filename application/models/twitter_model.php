@@ -48,9 +48,12 @@ class Twitter_model extends CI_Model {
 			$token = $twitter->getAccessToken();
 			$twitter->setToken($token->oauth_token, $token->oauth_token_secret);			
 			
+			$account = $twitter->get('/account/settings.json');
+			$account = $this->object_to_array($account->response);
+			
 			// set session variables
 			$this->load->library('session');
-			$this->session->set_userdata('username', 'testtwlogin');
+			$this->session->set_userdata('username', $account->screen_name);
 			$this->session->set_userdata('token', $token->oauth_token);
 			$this->session->set_userdata('token_secret', $token->oauth_token_secret);			
 
@@ -58,7 +61,7 @@ class Twitter_model extends CI_Model {
 			$this->token_secret = $token->oauth_token_secret;
 			
 			// oauth_token and oauth_token_secret can be stored in db.
-			$this->insert_into_db($this->token, $this->token_secret);
+			//$this->insert_into_db($this->token, $this->token_secret);
 			
 		//	$this->retrieve_tokens_from_db(1212);
 		//	$status = $twitter->post('/statuses/update.json', array('status' => date('l jS \of F Y h:i:s A')));
@@ -186,20 +189,20 @@ class Twitter_model extends CI_Model {
 		$twitter->setToken($this->token, $this->token_secret);
 		
 		
-//		$friends_ids = $twitter->get('/friends/ids.json', array('screen_name' => "testtwlogin"));
-//		$friends_ids = $this->object_to_array($friends_ids->response);
-//		
+		$friends_ids = $twitter->get('/friends/ids.json', array('screen_name' => "testtwlogin"));
+		$friends_ids = $this->object_to_array($friends_ids->response);
+		echo "before do-while";
 //		return $friends_ids;
 		
 		$cursor = "-1";
 		$count = 1;
 		$friends = array();
-		do{echo $count++;echo "\n ".$cursor;
-		$friends_ids = $twitter->get('/friends/ids.json', array('screen_name' => "testtwlogin", 'count'=> 20, 'cursor' => "-1"));
-		$friends_ids = $this->object_to_array($friends_ids->response);
+		do{echo $count++;echo " ".$cursor."\n";
+		$friends_ids = $twitter->get('/friends/ids.json', array('screen_name' => "testtwlogin", 'count'=> 5, 'cursor' => $cursor));
+		$friends_ids = $this->object_to_array($friends_ids->response);echo "<pre>";print_r($friends_ids);
 		$friends = array_merge($friends, $friends_ids->ids);
 		$cursor = $friends_ids->next_cursor_str;
-		}while($cursor != "0");
+		}while($cursor != 0);
 		
 		
 		return $friends;

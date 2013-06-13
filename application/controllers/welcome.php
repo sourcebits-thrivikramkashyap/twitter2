@@ -22,11 +22,12 @@ class Welcome extends CI_Controller {
 		$this->load->model('twitter_model');	
 		
 		$this->twitter_model->connect('http://'.$_SERVER['HTTP_HOST']);
-		$account_info = $this->twitter_model->get_account_settings();echo "<pre>";print_r($account_info);
-		$this->twitter_model->post_status("post1 to twitter06062013");		
-		echo $this->session->userdata('username');
+//	$account_info = $this->twitter_model->get_account_settings();echo "<pre>";print_r($account_info);
+//		$this->twitter_model->post_status("post1 to twitter06062013");		
+//		echo $this->session->userdata('username');
 //		$this->load->library('Twitter');
 //		$this->twitter->connect('http://'.$_SERVER['HTTP_HOST']);
+		$friends_ids = $this->twitter_model->get_friends_ids();echo "<pre>";print_r($friends_ids);die;
 		
 		$array = array(
 				"name" => 'testtwlogin',
